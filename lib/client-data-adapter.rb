@@ -1,4 +1,4 @@
-module ClientAdapter
+module ClientDataAdapter
 
   def self.demo
     'hello'
