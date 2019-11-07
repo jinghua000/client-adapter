@@ -1,1 +1,1 @@
-# client-adapter
+# client-data-adapter
