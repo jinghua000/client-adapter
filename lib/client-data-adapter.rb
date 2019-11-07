@@ -1,7 +1,7 @@
 module ClientDataAdapter
 
   def self.demo
-    'hello'
+    123
   end
 
 end

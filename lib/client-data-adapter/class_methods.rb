@@ -1,0 +1,3 @@
+class ClientDataAdapter::ClassMethods
+
+end
