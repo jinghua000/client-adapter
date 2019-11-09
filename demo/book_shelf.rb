@@ -10,4 +10,12 @@ class BookShelf
 
   end
 
+  def demo
+    new(
+      id: 1,
+      desc: 'my book shelf',
+      library_id: 1,
+    )
+  end
+
 end
