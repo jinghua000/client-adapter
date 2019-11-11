@@ -1,11 +1,15 @@
 require_relative '../lib/client-data-adapter'
 require_relative 'book_shelf'
+require_relative 'category'
 
 class Book
 
   include ClientDataAdapter
 
   define_adapter do
+
+    link_one :book_shelf
+    link_many :categories
 
     adapter do
       {
@@ -22,8 +26,12 @@ class Book
       "my_awesome_title"
     end
 
-    with :pass_sth do |*args|
-      args
+    with :pass1 do |*args|
+      args << 'pass1'
+    end
+
+    with :pass2 do |*args|
+      args << 'pass2'
     end
 
     with :id do
@@ -65,6 +73,10 @@ class Book
 
   def book_shelf
     BookShelf.demo
+  end
+
+  def categories
+    [Category.new(id: 1, cat: 'one'), Category.new(id: 2, cat: 'two')]
   end
 
 end

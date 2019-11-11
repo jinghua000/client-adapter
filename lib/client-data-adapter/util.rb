@@ -19,21 +19,5 @@ module ClientDataAdapter
       end
     end
 
-    def format_available_types(arg)
-      if [String, Symbol].include?(arg.class)
-
-        [arg.to_sym, nil]
-
-      elsif arg.is_a?(Hash)
-
-        arg.keys.first.yield_self do |k|
-          [k, arg[k]]
-        end
-
-      else
-        raise '[ERROR] Not available arguments type.'
-      end
-    end
-
   end
 end

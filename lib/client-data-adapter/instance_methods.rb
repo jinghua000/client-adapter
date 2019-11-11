@@ -13,17 +13,27 @@ module ClientDataAdapter
         adapter_wrapper.__adapter__.merge(
 
           *args.map do |arg|
-            key, params = Util.format_available_types(arg)
-
-            {}.tap do |hah|
-              hah["#{key}".to_sym] =
-                adapter_wrapper.respond_to?(key) ?
-                  adapter_wrapper.public_send(key, *params) :
-                  public_send(key, *params)
+            if [String, Symbol].include?(arg.class)
+              __merge_to_adapter__(arg.to_sym, nil)
+            elsif arg.is_a?(Hash)
+              arg.map(&method(:__merge_to_adapter__))
+            else
+              raise '[ERROR] Not available arguments type.'
             end
-          end
+          end.flatten,
 
         )
+      end
+    end
+
+    private
+
+    def __merge_to_adapter__(key, params)
+      {}.tap do |hah|
+        hah["#{key}".to_sym] =
+          adapter_wrapper.respond_to?(key) ?
+            adapter_wrapper.public_send(key, *params) :
+            public_send(key, *params)
       end
     end
 
