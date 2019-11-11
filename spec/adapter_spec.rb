@@ -72,4 +72,10 @@ RSpec.describe Book do
 
   end
 
+  it "not available arguments type will raise an error" do
+
+    expect { @book.adapter(123) }.to raise_error(RuntimeError)
+
+  end
+
 end
