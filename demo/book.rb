@@ -35,10 +35,7 @@ class Book
     end
 
     with :id do
-      return id if true
-      # :nocov:
-      raise 'CODE WILL NOT REACH HERE.'
-      # :nocov:
+      return id
     end
 
   end

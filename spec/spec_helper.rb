@@ -104,5 +104,9 @@ RSpec.configure do |config|
 =end
 end
 
-require 'coveralls'
-Coveralls.wear!
+if ENV['IS_CI'].to_i == 1
+
+  require 'coveralls'
+  Coveralls.wear!
+
+end
