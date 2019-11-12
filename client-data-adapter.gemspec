@@ -5,7 +5,6 @@ Gem::Specification.new do |s|
 
   s.name = 'client-data-adapter'
   s.version = '0.1.0-beta.0'
-  s.date = '2019-11-11'
   s.summary = 'client data adapter'
   s.description = 'Unifying data format for client.'
   s.authors = ['shadow']
