@@ -6,7 +6,7 @@
 
 ## Introduction
 
-In order to unify data format to transfer to client.
+For unify data formats to transfer to clients.
 
 ## Install 
 
@@ -104,9 +104,9 @@ Then
 # => { id: 1, title: 'My Book', my_complex_calc: 'something complex' }
 ```
 
-#### Outside Adapter
+#### Merge Method
 
-And you can merge any instance method outside the adapter to the adapter result, such as
+And you can merge any instance method of original class to the adapter result, such as
 
 ```ruby
 # book.rb
@@ -127,7 +127,7 @@ Then you can use adapter like this
 
 It will set the `method name` as the `key`, and `returns` as the `value`.
 
-> But notice that if method name is same, will trigger the one inside the adapter.
+> But notice that if method name is repeated, will trigger the one inside the adapter.
 
 #### Pass Arguments
 
@@ -138,9 +138,9 @@ Sometimes we need pass some arguments to deal different case, you can write like
 ```
 
 Arguments with `Hash` will consider the `key` as the `method name`,
-and `values` as the `arguments`.
+and `values` as `arguments`.
 
-It fit the method like this  
+To work with the method like this  
 
 ```ruby
 def foo(*args)
@@ -180,9 +180,50 @@ end
 
 It is works.
 
+#### Read Method Inside
+
+If you define something inside the adapter, you can't read it directly.
+
+```ruby
+# book.rb
+
+define_adapter do
+  #...
+  
+  with :my_method do
+    'invoke me please!'
+  end
+  
+end
+```
+
+```ruby
+@book.my_method # => ERROR! No Method
+```
+
+Since that adapter differentiate the namespace with the original class 
+to make naming more flexible.
+
+It create a wrapper for the adapter named `AdapterWrapper`, 
+and exposed by the instance method `adapter_wrapper`.
+
+```ruby
+@book.adapter_wrapper.class # => Book::AdapterWrapper
+```
+
+And you can read the adapter internal method via it.
+
+```ruby
+@book.adapter_wrapper.my_method # => works
+```
+
+hmm... but i am not very recommend you to use it by this way, 
+if you need some method works alone, 
+maybe you should define it in the original class.
+
 ### `link_one`
 
-This method is a syntactic sugar of with, seems like
+This method is a syntactic sugar of [`with`](#with), seems like
 
 ```ruby
 with :my_link do |*args|
@@ -221,14 +262,14 @@ define_adapter do
   adapter do
     {
       id: id,
-      cat: cat,
+      desc: desc,
     }
   end
     
 end
 ```
 
-then
+Then
 
 ```ruby
 @book.adapter(:book_shelf)
@@ -244,4 +285,63 @@ they can also used in nested.
 @book.adapter(book_shelf: [library: :some_method])
 ```
 
+And can define many links once.
+
+```ruby
+#...
+
+link_one :my_link1, :my_link2
+```
+
 ### `link_many`
+
+Okay, this method is similar with [`link_one`](#link_one) but multiple.
+
+If use `with` to implement likes
+
+```ruby
+with :my_links do |*args|
+  my_links.map { |link| link.adapter(*args) } 
+end
+```
+
+Usual used in one-to-many relationship, such as `has_many` in `rails`.
+
+For example
+
+```ruby
+# book.rb
+
+has_many :categories 
+
+define_adapter do
+  link_many :categories
+
+  #...
+end
+
+```
+
+```ruby
+# category.rb
+
+define_adapter do
+  
+  adapter do
+    {
+      id: id,
+      desc: desc,
+    }
+  end
+    
+end
+```
+
+Then
+
+```ruby
+@book.adapter(:categories)
+# => { id: 1, title: 'My Book', categories: @book.categories.map(&:adapter) }
+```
+
+Support multiple arguments and other usage, detail above.

@@ -18,4 +18,8 @@ RSpec.describe Book do
 
   end
 
+  it "adapter wrapper named `AdapterWrapper`" do
+    expect(@book.adapter_wrapper.class).to eq(Book::AdapterWrapper)
+  end
+
 end
