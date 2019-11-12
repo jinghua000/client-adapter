@@ -33,7 +33,7 @@ include ClientDataAdapter
 
 define_adapter do
 
-# define your adapter here...
+  # define your adapter here...
 
 end
 
@@ -127,7 +127,7 @@ Then you can use adapter like this
 
 It will set the `method name` as the `key`, and `returns` as the `value`.
 
-> But notice that if method name is same, will trigger the inside one.
+> But notice that if method name is same, will trigger the one inside the adapter.
 
 #### Pass Arguments
 
@@ -181,4 +181,67 @@ end
 It is works.
 
 ### `link_one`
+
+This method is a syntactic sugar of with, seems like
+
+```ruby
+with :my_link do |*args|
+  my_link.adapter(*args)
+end
+```
+
+is equal with
+
+```ruby
+link_one :my_link
+```
+
+It usual used in one-to-one relationship like `belongs_to` in `rails`.
+
+For example
+
+```ruby
+# book.rb
+
+belongs_to :book_shelf 
+
+define_adapter do
+  link_one :book_shelf
+
+  #...
+end
+
+```
+
+```ruby
+# book_shelf.rb
+
+define_adapter do
+  
+  adapter do
+    {
+      id: id,
+      cat: cat,
+    }
+  end
+    
+end
+```
+
+then
+
+```ruby
+@book.adapter(:book_shelf)
+# => { id: 1, title: 'My Book', book_shelf: @book.book_shelf.adapter }
+```
+
+Of course you can pass some arguments, and if you have several links,
+they can also used in nested.
+
+```ruby
+#...
+ 
+@book.adapter(book_shelf: [library: :some_method])
+```
+
 ### `link_many`
