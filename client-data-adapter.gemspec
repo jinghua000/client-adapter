@@ -6,10 +6,11 @@ Gem::Specification.new do |s|
   s.name = 'client-data-adapter'
   s.version = '0.1.0-beta.0'
   s.summary = 'client data adapter'
-  s.description = 'Unifying data format for client.'
+  s.description = 'For unify data formats to transfer to clients.'
   s.authors = ['shadow']
   s.files = `git ls-files`.split("\n")
   s.homepage = 'https://github.com/jinghua000/client-data-adapter'
   s.license = 'MIT'
+  s.required_ruby_version = '>= 2.1'
 
 end
