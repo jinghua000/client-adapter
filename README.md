@@ -5,18 +5,18 @@
 [![Coverage Status](https://coveralls.io/repos/github/jinghua000/client-data-adapter/badge.svg?branch=master)](https://coveralls.io/github/jinghua000/client-data-adapter?branch=master)
 
 ## Table of Contents
-  - [Introduction](#introduction)
-  - [Install](#install)
-  - [Usage](#usage)
-    - [`define_adapter`](#define_adapter)
-    - [`adapter`](#adapter)
-    - [`with`](#with)
+  * [Introduction](#introduction)
+  * [Install](#install)
+  * [Usage](#usage)
+    + [`define_adapter`](#define_adapter)
+    + [`adapter`](#adapter)
+    + [`with`](#with)
       - [Merge Methods](#merge-methods)
       - [Pass Arguments](#pass-arguments)
-      - [Can Use Return](#can-use-return)
+      - [Use Return](#use-return)
       - [Read Methods Inside](#read-methods-inside)
-    - [`link_one`](#link_one)
-    - [`link_many`](#link_many)
+    + [`link_one`](#link_one)
+    + [`link_many`](#link_many)
     
 ## Introduction
 
@@ -179,7 +179,7 @@ The result will be
 # => { id: 1, title: 'My Book', foo: 'bar,baz' }
 ```
 
-#### Can Use Return
+#### Use Return
 
 You can use return in adapter block to flow control.
 

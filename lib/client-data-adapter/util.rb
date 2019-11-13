@@ -3,6 +3,19 @@ module ClientDataAdapter
 
     module_function
 
+    # Merge some hash.
+    #
+    # @param [Hash] elements
+    def merge(*elements)
+      {}.tap do |hsh|
+        elements.each do |elem|
+          elem.each do |k, v|
+            hsh[k] = v
+          end
+        end
+      end
+    end
+
     # Convert a Proc to Lambda.
     #
     # @param [Proc] source_proc

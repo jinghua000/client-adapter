@@ -16,10 +16,11 @@ module ClientDataAdapter
     end
 
 
-    # Main adapter return, usual +Hash+.
+    # Main adapter method, should return +Hash+.
     #
     # Syntactic sugar of +with+.
     #
+    # @return [Hash]
     # @see with
     # @example
     #   define_adapter do
