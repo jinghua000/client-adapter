@@ -3,6 +3,11 @@ require_relative 'util'
 module ClientDataAdapter
   module InstanceMethods
 
+    # Main adapter method.
+    #
+    # @param args [Symbol|String|Hash]
+    # @example
+    #   @book.adapter(:method1, method2: 'payload', method3: [:foo, :bar])
     def adapter(*args)
 
       length = args.length
