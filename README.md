@@ -47,7 +47,8 @@ include ClientDataAdapter
 
 define_adapter do
 
-  # define your adapter here...
+  # define your adapter here.
+  # ... 
 
 end
 
@@ -55,7 +56,7 @@ end
 
 ### `adapter`
 
-`adapter` method define the main adapter, and common structure should be a `Hash`. 
+`adapter` method define the main adapter, should return a `Hash`. 
 
 ```ruby
 # ...
@@ -84,8 +85,8 @@ In elsewhere
 
 ### `with`
 
-And you are probably need some complex calculation or related some other class,
-they maybe need some cost and don't need to load everywhere.
+And you probably need some complex calculation or related some other class,
+they maybe need some cost and is unnecessary to load everywhere.
 
 So we need use them *on-demand*.
 
@@ -165,8 +166,6 @@ end
 or this
 
 ```ruby
-# ...
-
 with :foo do |*args|
   args.join(',')
 end
@@ -231,7 +230,7 @@ And you can read the adapter internal method via it.
 @book.adapter_wrapper.my_method # => works
 ```
 
-hmm... but i am not very recommend you to use it by this way, 
+hmm... but i'm not very recommend you to use it by this way, 
 if you need some method works alone, 
 maybe you should define it in the original class.
 
@@ -291,12 +290,13 @@ Then
 ```
 
 Of course you can pass some arguments, and if you have several links,
-they can also used in nested.
+can also used in nested.
 
 ```ruby
 # ...
  
-@book.adapter(book_shelf: [library: :some_method])
+@book.adapter(book_shelf: [:foo, library: :bar])
+# => { ..., book_shelf: { ..., foo: ..., library: { ..., bar: ... } } }
 ```
 
 And can define many links once.
@@ -335,23 +335,6 @@ define_adapter do
 end
 
 ```
-
-```ruby
-# category.rb
-
-define_adapter do
-  
-  adapter do
-    {
-      id: id,
-      desc: desc,
-    }
-  end
-    
-end
-```
-
-Then
 
 ```ruby
 @book.adapter(:categories)
