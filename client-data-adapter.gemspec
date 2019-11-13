@@ -4,7 +4,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 Gem::Specification.new do |s|
 
   s.name = 'client-data-adapter'
-  s.version = '0.1.0-beta.0'
+  s.version = '0.1.0'
   s.summary = 'client data adapter'
   s.description = 'For unify data formats to transfer to clients.'
   s.authors = ['shadow']
