@@ -3,6 +3,10 @@ require_relative 'util'
 module ClientDataAdapter
   class Wrapper
 
+    # Instance of original class.
+    #
+    # @example
+    #   @book.adapter_wrapper.target == @book # => true
     attr_reader :target
 
     def initialize(target, &block)
@@ -11,10 +15,40 @@ module ClientDataAdapter
       self.class.module_eval(&block)
     end
 
+
+    # Main adapter return, usual +Hash+.
+    #
+    # Syntactic sugar of +with+.
+    #
+    # @see with
+    # @example
+    #   define_adapter do
+    #
+    #     adapter do
+    #       {
+    #         id: id,
+    #         title: title,
+    #       }
+    #     end
+    #
+    #   end
     def self.adapter(&block)
       with('__adapter__', &block)
     end
 
+    # Used in one-to-one relationship.
+    #
+    # Syntactic sugar of +with+.
+    #
+    # @param [Symbol] associations
+    # @see with
+    # @example
+    #   define_adapter do
+    #
+    #     link_one(:link1, :link2)
+    #     # ...
+    #
+    #   end
     def self.link_one(*associations)
       associations.each do |assoc|
         with(assoc) do |*args|
@@ -23,6 +57,19 @@ module ClientDataAdapter
       end
     end
 
+    # Used in one-to-many relationship.
+    #
+    # Syntactic sugar of +with+.
+    #
+    # @param [Symbol] associations
+    # @see with
+    # @example
+    #   define_adapter do
+    #
+    #     link_many(:link1, :link2)
+    #     # ...
+    #
+    #   end
     def self.link_many(*associations)
       associations.each do |assoc|
         with(assoc) do |*args|
@@ -33,6 +80,20 @@ module ClientDataAdapter
       end
     end
 
+    # Define a method of +Wrapper+.
+    #
+    # Merged to the result of +adapter+ method.
+    #
+    # @param [Symbol] method_name
+    # @example
+    #   define_adapter do
+    #     # ...
+    #
+    #     with :something do
+    #       # do something
+    #     end
+    #
+    #   end
     def self.with(method_name, &block)
       define_method(method_name.to_sym) do |*args|
         target.instance_exec(

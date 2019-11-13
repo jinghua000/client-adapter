@@ -4,6 +4,20 @@
 [![Gem Version](https://badge.fury.io/rb/client-data-adapter.svg)](https://rubygems.org/gems/client-data-adapter)
 [![Coverage Status](https://coveralls.io/repos/github/jinghua000/client-data-adapter/badge.svg?branch=master)](https://coveralls.io/github/jinghua000/client-data-adapter?branch=master)
 
+## Table of Contents
+  - [Introduction](#introduction)
+  - [Install](#install)
+  - [Usage](#usage)
+    - [`define_adapter`](#define_adapter)
+    - [`adapter`](#adapter)
+    - [`with`](#with)
+      - [Merge Methods](#merge-methods)
+      - [Pass Arguments](#pass-arguments)
+      - [Can Use Return](#can-use-return)
+      - [Read Methods Inside](#read-methods-inside)
+    - [`link_one`](#link_one)
+    - [`link_many`](#link_many)
+    
 ## Introduction
 
 For unify data formats to transfer to clients.
@@ -20,7 +34,7 @@ or in `Gemfile`
 gem 'client-data-adapter'
 ```
 
-## Main Usage
+## Usage
 
 ### `define_adapter`
 
@@ -44,7 +58,7 @@ end
 `adapter` method define the main adapter, and common structure should be a `Hash`. 
 
 ```ruby
-#...
+# ...
 
 define_adapter do
 
@@ -61,7 +75,7 @@ end
 In elsewhere
 
 ```ruby
-#...
+# ...
 
 @book = Book.new(id: 1, title: 'My Book')
 @book.adapter # => { id: 1, title: 'My Book' } 
@@ -76,7 +90,7 @@ they maybe need some cost and don't need to load everywhere.
 So we need use them *on-demand*.
 
 ```ruby
-#...
+# ...
 
 define_adapter do
 
@@ -97,14 +111,14 @@ end
 Then
 
 ```ruby
-#...
+# ...
 
 @book = Book.new(id: 1, title: 'My Book')
 @book.adapter(:my_complex_calc) 
 # => { id: 1, title: 'My Book', my_complex_calc: 'something complex' }
 ```
 
-#### Merge Method
+#### Merge Methods
 
 And you can merge any instance method of original class to the adapter result, such as
 
@@ -119,7 +133,7 @@ end
 Then you can use adapter like this
 
 ```ruby
-#... 
+# ... 
  
 @book.adapter(:full_title)
 # => { id: 1, title: 'My Book', full_title: '<My Book>' }
@@ -151,7 +165,7 @@ end
 or this
 
 ```ruby
-#...
+# ...
 
 with :foo do |*args|
   args.join(',')
@@ -170,7 +184,7 @@ The result will be
 You can use return in adapter block to flow control.
 
 ```ruby
-#...
+# ...
 
 with :id do
   return 'i have no id' unless id 
@@ -180,7 +194,7 @@ end
 
 It is works.
 
-#### Read Method Inside
+#### Read Methods Inside
 
 If you define something inside the adapter, you can't read it directly.
 
@@ -188,7 +202,7 @@ If you define something inside the adapter, you can't read it directly.
 # book.rb
 
 define_adapter do
-  #...
+  # ...
   
   with :my_method do
     'invoke me please!'
@@ -249,7 +263,7 @@ belongs_to :book_shelf
 define_adapter do
   link_one :book_shelf
 
-  #...
+  # ...
 end
 
 ```
@@ -280,7 +294,7 @@ Of course you can pass some arguments, and if you have several links,
 they can also used in nested.
 
 ```ruby
-#...
+# ...
  
 @book.adapter(book_shelf: [library: :some_method])
 ```
@@ -288,7 +302,7 @@ they can also used in nested.
 And can define many links once.
 
 ```ruby
-#...
+# ...
 
 link_one :my_link1, :my_link2
 ```
@@ -317,7 +331,7 @@ has_many :categories
 define_adapter do
   link_many :categories
 
-  #...
+  # ...
 end
 
 ```
