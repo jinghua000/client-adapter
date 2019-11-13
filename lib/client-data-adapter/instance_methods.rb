@@ -15,18 +15,17 @@ module ClientDataAdapter
       if length == 0
         adapter_wrapper.__adapter__
       else
-        adapter_wrapper.__adapter__.merge(
-
+        Util.merge(
+          adapter_wrapper.__adapter__,
           *args.map do |arg|
             if [String, Symbol].include?(arg.class)
               __merge_to_adapter__(arg.to_sym, nil)
             elsif arg.is_a?(Hash)
-              arg.map(&method(:__merge_to_adapter__))
+              arg.map { |k, v| __merge_to_adapter__(k, v) }
             else
               raise '[ERROR] Not available arguments type.'
             end
           end.flatten,
-
         )
       end
     end
