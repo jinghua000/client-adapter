@@ -1,10 +1,12 @@
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
+require_relative 'lib/client-data-adapter/version'
+
 Gem::Specification.new do |s|
 
   s.name = 'client-data-adapter'
-  s.version = '0.1.0'
+  s.version = ClientDataAdapter::VERSION
   s.summary = 'client data adapter'
   s.description = 'For unify data formats to transfer to clients.'
   s.authors = ['shadow']

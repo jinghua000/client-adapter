@@ -1,6 +1,6 @@
 require_relative '../demo/book'
 
-RSpec.describe Book do
+RSpec.describe ClientDataAdapter do
 
   before(:each) do
     @book = Book.demo
