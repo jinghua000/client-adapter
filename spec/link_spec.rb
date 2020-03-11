@@ -101,4 +101,24 @@ RSpec.describe ClientDataAdapter do
 
   end
 
+  it "if link one's target is nil, return nil" do
+    expect(@book.adapter_wrapper.empty_book_shelf).to eq(nil)
+    expect(@book.adapter(:empty_book_shelf))
+      .to eq(
+            id: @book.id,
+            title: @book.title,
+            empty_book_shelf: nil,
+          )
+  end
+
+  it "if link many's target is nil, return []" do
+    expect(@book.adapter_wrapper.empty_categories).to eq([])
+    expect(@book.adapter(:empty_categories))
+      .to eq(
+            id: @book.id,
+            title: @book.title,
+            empty_categories: [],
+          )
+  end
+
 end

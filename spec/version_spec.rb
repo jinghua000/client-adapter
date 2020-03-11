@@ -5,7 +5,7 @@ RSpec.describe ClientDataAdapter do
   it "should return the version" do
 
     expect(ClientDataAdapter::VERSION)
-      .to eq('0.1.2')
+      .to eq('0.1.3')
 
   end
 

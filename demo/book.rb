@@ -8,8 +8,8 @@ class Book
 
   define_adapter do
 
-    link_one :book_shelf
-    link_many :categories
+    link_one :book_shelf, :empty_book_shelf
+    link_many :categories, :empty_categories
 
     adapter do
       {
@@ -76,6 +76,14 @@ class Book
 
   def categories
     [Category.new(id: 1, cat: 'one'), Category.new(id: 2, cat: 'two')]
+  end
+
+  def empty_book_shelf
+    nil
+  end
+
+  def empty_categories
+    nil
   end
 
 end

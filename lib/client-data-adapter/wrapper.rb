@@ -53,7 +53,11 @@ module ClientDataAdapter
     def self.link_one(*associations)
       associations.each do |assoc|
         with(assoc) do |*args|
-          public_send(assoc.to_sym).adapter(*args)
+          obj = public_send(assoc.to_sym)
+
+          if obj.respond_to?(:adapter)
+            obj.adapter(*args)
+          end
         end
       end
     end
@@ -74,7 +78,7 @@ module ClientDataAdapter
     def self.link_many(*associations)
       associations.each do |assoc|
         with(assoc) do |*args|
-          public_send(assoc.to_sym).map do |elem|
+          (public_send(assoc.to_sym) || []).map do |elem|
             elem.adapter(*args)
           end
         end
